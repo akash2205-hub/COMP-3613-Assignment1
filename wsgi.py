@@ -3,9 +3,9 @@ from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
-from App.models import User
+from App.models import User, Student, Review
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users, initialize )
+from App.controllers import ( create_user, get_all_users_json, get_all_users, initialize,  create_student, get_student_by_lName, get_all_students , create_review)
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -36,6 +36,49 @@ user_cli = AppGroup('user', help='User object commands')
 def create_user_command(username, password):
     create_user(username, password)
     print(f'{username} created!')
+
+@app.cli.command("create-student", help="Creates a student")
+@click.argument("fName", default="rob")
+@click.argument("lName", default="robbington")
+def create_student_command(fName, lName):
+    create_student(fName, lName)
+    print(f'{fName} {lName} created!')
+
+@app.cli.command("get-student", help="Retrieves a Student")
+@click.argument('lName', default='bobbington')
+def get_student(lName):
+  bob = get_student_by_lName(lName)
+  if not bob:
+    print(f'{lName} not found!')
+    return
+  print(bob)
+
+@app.cli.command('get-students')
+def get_students():
+  # gets all objects of a model
+  students = get_all_students()
+  print(students)
+
+@app.cli.command('get-reviews')
+@click.argument('lName', default='robbington')
+def get_user_todos(lName):
+  bob = get_student_by_lName(lName)
+  if not bob:
+      print(f'{lName} not found!')
+      return
+  print(bob.reviews)
+
+@app.cli.command('add-review')
+@click.argument('lName', default='bobbington')
+@click.argument('title', default='Excellent Work')
+@click.argument('text', default='Has topped the class')
+def add_review(lName, title, text):
+  bob = get_student_by_lName(lName)
+  if not bob:
+      print(f'{username} not found!')
+      return
+  create_review(bob, title, text)
+
 
 # this command will be : flask user create bob bobpass
 
