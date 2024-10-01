@@ -195,7 +195,11 @@ If you are adding models you may need to migrate the database with the commands 
 # CLI COMMANDS
 
 flask create-student : creates new Student and adds to database
+
 flask get-student : retrieves a student by searching their Last Name (lName)
+
 flask get-students : retrieves all students in the database
+
 flask get-reviews : retrieves a student's review by searching their last name (lName)
+
 flask add-review : retrieves a student by searching their last name and then once found, it will add a review and then append it to the student's reviews
