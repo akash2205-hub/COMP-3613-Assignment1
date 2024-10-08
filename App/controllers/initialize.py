@@ -1,6 +1,7 @@
 from .user import create_user
 from .student import create_student
 from App.database import db
+from App.models import Review
 
 
 def initialize():
